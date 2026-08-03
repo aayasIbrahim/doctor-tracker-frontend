@@ -1,11 +1,16 @@
 export interface IUser {
-  _id: string;
-  name: string;
-  email: string;
-  role: "ADMIN" | "DOCTOR" | "PATIENT";
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  success: boolean;
+  statusCode?: number;
+  message: string;
+  data: {
+    _id: string;
+    name: string;
+    email: string;
+    role: "ADMIN" | "DOCTOR" | "PATIENT";
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  } | null;
 }
 
 export interface IRegisterApiResponse {
@@ -39,4 +44,7 @@ export type LoginActionState = {
   statusCode?: number;
   message: string;
   data: IAuthTokens | null;
+};
+export type NavbarProps = {
+  user: IUser;
 };

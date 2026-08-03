@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Stethoscope,
   Users,
+  LogOutIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,26 +26,30 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { NavbarProps } from "@/types";
+import { logout } from "@/services/logout";
 
-// import { NavbarProps } from "@/lib/type";
-// import { logout } from "@/services/logout";
-
-// 🩺 Healthcare specific navigation links
+// Healthcare specific navigation links
 const navLinks = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Doctors", href: "/doctors", icon: Stethoscope },
   { label: "Patients", href: "/patients", icon: Users },
 ];
-
-export function Navbar() {
+// Profile menu items
+const userMenuItems = [
+  { label: "Profile", icon: User, action: "profile" },
+  { label: "Settings", icon: Settings, action: "settings" },
+  { label: "log out", icon: LogOutIcon, action: "logOut" },
+];
+export function Navbar({ user }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  const handleLogout = async () => {
-    // await logout();
-    router.push("/login");
+  const handleUsermMenuAction = async (action: string) => {
+    if (action == "logOut") {
+      await logout()
+    }
   };
-
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
   };
@@ -85,7 +90,7 @@ export function Navbar() {
 
         {/* Right Section: Desktop User Menu & Mobile Toggle */}
         <div className="flex items-center gap-3">
-          {false ? (
+          {user.success ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="outline-none cursor-pointer">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 transition-colors hover:bg-primary/20">
@@ -94,48 +99,34 @@ export function Navbar() {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuGroup>
+                  <DropdownMenuGroup>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-medium leading-none">
-                        {"Admin User"}
+                        {user.data?.name}
                       </p>
                       <p className="text-xs text-muted-foreground leading-none">
-                        {"admin@healthcare.com"}
+                        {user.data?.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
                 </DropdownMenuGroup>
-
-                <DropdownMenuSeparator />
-
                 <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/profile")}
-                    className="cursor-pointer"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    <span>Profile</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/settings")}
-                    className="cursor-pointer"
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
+                  {userMenuItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <DropdownMenuItem
+                        key={item.action}
+                        onClick={() => handleUsermMenuAction(item.action)}
+                        className="cursor-pointer"
+                      >
+                        <Icon className="w-4 h-4 mr-2" />
+                        <span>{item.label}</span>
+                        <DropdownMenuSeparator />
+                      </DropdownMenuItem>
+                    );
+                  })}
                 </DropdownMenuGroup>
-
-                <DropdownMenuSeparator />
-
-                {/* Log Out Action */}
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/10"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  <span>Log out</span>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
