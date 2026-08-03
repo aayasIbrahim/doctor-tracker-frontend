@@ -13,7 +13,6 @@ export interface IRegisterApiResponse {
   statusCode: number;
   message: string;
   data?: IUser;
-
 }
 
 export type FormActionState = {
@@ -21,5 +20,23 @@ export type FormActionState = {
   statusCode: number;
   message: string;
   data?: IUser | null;
+};
 
+export interface IAuthTokens {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface ILoginApiResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data?: IAuthTokens;
+}
+
+export type LoginActionState = {
+  success: boolean;
+  statusCode?: number;
+  message: string;
+  data: IAuthTokens | null;
 };
