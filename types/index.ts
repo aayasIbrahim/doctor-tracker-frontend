@@ -1,0 +1,25 @@
+export interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: "ADMIN" | "DOCTOR" | "PATIENT";
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface IRegisterApiResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data?: IUser;
+
+}
+
+export type FormActionState = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data?: IUser | null;
+
+};

@@ -85,7 +85,7 @@ export function Navbar() {
 
         {/* Right Section: Desktop User Menu & Mobile Toggle */}
         <div className="flex items-center gap-3">
-          {true ? (
+          {false ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="outline-none cursor-pointer">
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 transition-colors hover:bg-primary/20">
