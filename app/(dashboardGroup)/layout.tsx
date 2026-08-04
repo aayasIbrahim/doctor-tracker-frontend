@@ -21,10 +21,10 @@ const DashboardLayout = async (
       <Navbar user={user} />
       
       <SidebarProvider
-        style={{
-          "--sidebar-width": "20rem",
-          "--sidebar-width-mobile": "20rem",
-        } as React.CSSProperties}
+        // style={{
+        //   "--sidebar-width": "20rem",
+        //   "--sidebar-width-mobile": "20rem",
+        // } as React.CSSProperties}
       >
         <div className="flex flex-1 h-[calc(100vh-4rem)] overflow-hidden relative">
           
