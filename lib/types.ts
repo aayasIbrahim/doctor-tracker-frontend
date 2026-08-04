@@ -83,15 +83,15 @@ export interface IDoctorResponse {
   success: boolean;
   statusCode: number;
   message: string;
+  data?: IDoctor[] | null;
   meta?: IDoctorMeta;
-  data: IDoctor[]|null;
 }
 
 export interface ISingleDoctorResponse {
   success: boolean;
   statusCode: number;
   message: string;
-  data?: IDoctor|null;
+  data?: IDoctor | null;
 }
 
 export interface IDoctorQuery {

@@ -1,11 +1,11 @@
 "use server";
-import { IDoctorResponse, ISingleDoctorResponse } from "./../../../lib/types";
+import { ISingleDoctorResponse } from "./../../../lib/types";
 
 import config from "@/config";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export const getAllDoctor = async ({
+export const getAllDoctors = async ({
   query,
 }: {
   query?: {
@@ -40,15 +40,13 @@ export const getAllDoctor = async ({
       headers: {
         cookie: `accessToken=${accessToken}`,
       },
-      next: {
-        tags: ["doctors"],
-      },
+      cache: "no-store",
     },
   );
-  const result: IDoctorResponse = await res.json();
-  if (result?.success) {
-    revalidateTag("doctors", "revalidate");
-  }
+  const result = await res.json();
+    // if (result?.success) {
+    //   revalidateTag("doctors");
+    // }
   return result;
 };
 
@@ -66,7 +64,7 @@ export const createDoctor = async (
   if (!payload.name || !payload.email || !payload.specialization) {
     return {
       success: false,
-      statusCode:400,
+      statusCode: 400,
       message: "Required fields (Name, Email, Specialization) are missing.",
     };
   }
@@ -75,7 +73,7 @@ export const createDoctor = async (
   if (!accessToken) {
     return {
       success: false,
-      statusCode:400,
+      statusCode: 400,
       message: "Unauthorized: Access token not found.",
     };
   }
@@ -106,18 +104,18 @@ export const updateDoctor = async (
     phone: formData.get("phone") ?? "",
     email: formData.get("email") ?? "",
   };
-
+  
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
   if (!accessToken) {
     return {
       success: false,
-      statusCode:400,
+      statusCode: 400,
       message: "Unauthorized: Access token not found.",
     };
   }
   const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       cookie: `accessToken=${accessToken}`,
@@ -125,6 +123,7 @@ export const updateDoctor = async (
     body: JSON.stringify(payload),
   });
   const result: ISingleDoctorResponse = await res.json();
+  console.log(result);
   if (result?.success) {
     revalidateTag("doctors", "revalidate");
   }
@@ -140,7 +139,7 @@ export const deleteDoctor = async (doctorId: string) => {
     };
   }
   const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
-    method: "DELET",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       cookie: `accessToken=${accessToken}`,

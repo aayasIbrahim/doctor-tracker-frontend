@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -36,7 +36,7 @@ type DoctorFormDialogProps = {
 export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
   const [open, setOpen] = useState(false);
 
-//   Bind doctor ID for edit mode
+  //   Bind doctor ID for edit mode
   const action =
     mode === "edit" && doctor
       ? updateDoctor.bind(null, doctor._id)
@@ -52,10 +52,10 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
         state.message ||
           (mode === "edit"
             ? "Doctor updated successfully"
-            : "Doctor created successfully")
+            : "Doctor created successfully"),
       );
-       // eslint-disable-next-line react-hooks/set-state-in-effect -- closing the dialog is the intended reaction to the server action's result, not a render loop
-            setOpen(false);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- closing the dialog is the intended reaction to the server action's result, not a render loop
+      setOpen(false);
       setOpen(false);
     } else {
       toast.error(state.message || "Something went wrong");
@@ -64,17 +64,24 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger >
+      <DialogTrigger
+        className={
+          mode === "edit"
+            ? buttonVariants({ variant: "outline", size: "sm" }) +
+              " h-8 gap-1.5 text-xs"
+            : buttonVariants({ size: "sm" }) + " gap-1.5 text-xs font-medium"
+        }
+      >
         {mode === "edit" ? (
-          <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
+          <>
             <PencilIcon className="h-3.5 w-3.5" />
             Edit
-          </Button>
+          </>
         ) : (
-          <Button size="sm" className="gap-1.5 text-xs font-medium">
+          <>
             <PlusIcon className="h-4 w-4" />
             Add New Doctor
-          </Button>
+          </>
         )}
       </DialogTrigger>
 
@@ -204,8 +211,8 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
               {pending
                 ? "Saving..."
                 : mode === "edit"
-                ? "Update Doctor"
-                : "Create Doctor"}
+                  ? "Update Doctor"
+                  : "Create Doctor"}
             </Button>
           </DialogFooter>
         </form>

@@ -5,9 +5,16 @@ import { StatsCard } from "./StatsCard";
 import DashboardCharts from "./DashboardCharts";
 
 export async function DashboardDataContent() {
-  const statsData = await getDashboardStats();
-  const totalDoctors = statsData?.data.overview?.totalDoctors || 0;
-  const totalPatients = statsData?.data.overview?.totalPatients || 0;
+  const result = await getDashboardStats();
+
+  if (!result.success) {
+    return (
+      <p className="py-12 text-center text-muted-foreground">No Data found.</p>
+    );
+  }
+
+  const totalDoctors = result?.data.overview?.totalDoctors || 0;
+  const totalPatients = result?.data.overview?.totalPatients || 0;
   const avgPatients =
     totalDoctors > 0 ? (totalPatients / totalDoctors).toFixed(1) : "0";
 
@@ -42,7 +49,7 @@ export async function DashboardDataContent() {
       </div>
 
       {/* Visual Analytics Charts */}
-      <DashboardCharts stats={statsData} />
+      <DashboardCharts stats={result} />
     </div>
   );
 }
