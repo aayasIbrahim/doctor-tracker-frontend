@@ -52,7 +52,10 @@ export const getAllDoctor = async ({
   return result;
 };
 
-export const createDoctor = async (formData: FormData) => {
+export const createDoctor = async (
+  prevState: ISingleDoctorResponse | null,
+  formData: FormData,
+): Promise<ISingleDoctorResponse> => {
   const payload = {
     name: formData.get("name"),
     specialization: formData.get("specialization"),
@@ -63,6 +66,7 @@ export const createDoctor = async (formData: FormData) => {
   if (!payload.name || !payload.email || !payload.specialization) {
     return {
       success: false,
+      statusCode:400,
       message: "Required fields (Name, Email, Specialization) are missing.",
     };
   }
@@ -71,6 +75,7 @@ export const createDoctor = async (formData: FormData) => {
   if (!accessToken) {
     return {
       success: false,
+      statusCode:400,
       message: "Unauthorized: Access token not found.",
     };
   }
@@ -89,7 +94,11 @@ export const createDoctor = async (formData: FormData) => {
   return result;
 };
 
-export const updateDoctor = async (doctorId: string, formData: FormData) => {
+export const updateDoctor = async (
+  doctorId: string,
+  prevState: ISingleDoctorResponse | null,
+  formData: FormData,
+): Promise<ISingleDoctorResponse> => {
   const payload = {
     name: formData.get("name") ?? "",
     specialization: formData.get("specialization") ?? "",
@@ -103,6 +112,7 @@ export const updateDoctor = async (doctorId: string, formData: FormData) => {
   if (!accessToken) {
     return {
       success: false,
+      statusCode:400,
       message: "Unauthorized: Access token not found.",
     };
   }

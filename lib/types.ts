@@ -84,14 +84,14 @@ export interface IDoctorResponse {
   statusCode: number;
   message: string;
   meta?: IDoctorMeta;
-  data: IDoctor[];
+  data: IDoctor[]|null;
 }
 
 export interface ISingleDoctorResponse {
   success: boolean;
   statusCode: number;
   message: string;
-  data: IDoctor;
+  data?: IDoctor|null;
 }
 
 export interface IDoctorQuery {
