@@ -2,6 +2,7 @@
 import { ISingleDoctorResponse } from "./../../../lib/types";
 
 import config from "@/config";
+import { getAccessToken } from "@/services/getAccessToken";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -12,15 +13,11 @@ export const getAllDoctors = async ({
     [key: string]: string | string[] | undefined;
   };
 }) => {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
-  if (!accessToken) {
-    return {
-      success: false,
-      message: "Unauthorized: Access token not found.",
-    };
-  }
+  const { error, token } = await getAccessToken();
 
+  if (error) {
+    return error;
+  }
   const params = new URLSearchParams();
 
   if (query) {
@@ -38,15 +35,15 @@ export const getAllDoctors = async ({
     `${config.backend_url}/api/doctors?${params.toString()}`,
     {
       headers: {
-        cookie: `accessToken=${accessToken}`,
+        cookie: `accessToken=${token}`,
       },
       cache: "no-store",
     },
   );
   const result = await res.json();
-    // if (result?.success) {
-    //   revalidateTag("doctors");
-    // }
+  // if (result?.success) {
+  //   revalidateTag("doctors");
+  // }
   return result;
 };
 
@@ -104,7 +101,7 @@ export const updateDoctor = async (
     phone: formData.get("phone") ?? "",
     email: formData.get("email") ?? "",
   };
-  
+
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value || null;
   if (!accessToken) {
@@ -130,19 +127,16 @@ export const updateDoctor = async (
   return result;
 };
 export const deleteDoctor = async (doctorId: string) => {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
-  if (!accessToken) {
-    return {
-      success: false,
-      message: "Unauthorized: Access token not found.",
-    };
+  const { error, token } = await getAccessToken();
+
+  if (error) {
+    return error;
   }
   const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      cookie: `accessToken=${accessToken}`,
+      cookie: `accessToken=${token}`,
     },
   });
   const result: ISingleDoctorResponse = await res.json();

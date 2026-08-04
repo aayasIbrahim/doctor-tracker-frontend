@@ -1,27 +1,23 @@
 "use server";
 
 import config from "@/config";
-import { cookies } from "next/headers";
+import { getAccessToken } from "@/services/getAccessToken";
 
 export const getDashboardStats = async () => {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
-  if (!accessToken) {
-    return {
-      success: false,
-      message: "Your not accessable this Dashboard Stats",
-    };
+  const { error, token } = await getAccessToken();
+
+  if (error) {
+    return error;
   }
 
   const res = await fetch(`${config.backend_url}/api/stats/dashboard`, {
     headers: {
-      cookie :`accessToken=${accessToken}`,
+      cookie: `accessToken=${token}`,
     },
     cache: "no-store",
   });
 
-  const result=await res.json()
-  
-  
-  return result
+  const result = await res.json();
+
+  return result;
 };
