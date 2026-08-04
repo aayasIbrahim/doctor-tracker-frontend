@@ -2,33 +2,21 @@ import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export interface IUser {
-  success: boolean;
-  statusCode?: number;
-  message: string;
-  data: {
-    _id: string;
-    name: string;
-    email: string;
-    role: "ADMIN" | "DOCTOR" | "PATIENT";
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-  } | null;
+  _id: string;
+  name: string;
+  email: string;
+  role: "ADMIN" | "DOCTOR";
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
-export interface IRegisterApiResponse {
-  success: boolean;
-  statusCode: number;
-  message: string;
-  data?: IUser;
-}
-
-export type FormActionState = {
+export interface IUserApiResponse {
   success: boolean;
   statusCode: number;
   message: string;
   data?: IUser | null;
-};
+}
 
 export interface IAuthTokens {
   accessToken: string;
@@ -42,21 +30,17 @@ export interface ILoginApiResponse {
   data?: IAuthTokens;
 }
 
-export type LoginActionState = {
-  success: boolean;
-  statusCode?: number;
-  message: string;
-  data: IAuthTokens | null;
-};
 export type NavbarProps = {
-  user: IUser;
+  user: IUserApiResponse;
 };
 
 export type ISidebarItem = {
-    label: string,
-    href: string,
-    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
-}
+  label: string;
+  href: string;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+};
 export interface IDashboardStats {
   data: {
     overview: {
@@ -70,8 +54,53 @@ export interface IDashboardStats {
       specialization: string;
     }[];
     dateBasedPatients: {
-      _id: string; 
+      _id: string;
       count: number;
     }[];
   };
+}
+
+export interface IDoctor {
+  _id: string;
+  name: string;
+  specialization: string;
+  hospital: string;
+  phone: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+export interface IDoctorMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface IDoctorResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  meta?: IDoctorMeta;
+  data: IDoctor[];
+}
+
+export interface ISingleDoctorResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: IDoctor;
+}
+
+export interface IDoctorQuery {
+  searchTerm?: string;
+  specialization?: string;
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
 }

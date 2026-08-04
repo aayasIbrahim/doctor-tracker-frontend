@@ -18,13 +18,13 @@ export const ADMIN_SIDEBAR_ITEMS: ISidebarItem[] = [
     href: "/admin-dashboard/appointments",
     icon: CalendarCheck,
   },
-  { label: "Specialties", href: "/admin-dashboard/specialties", icon: Award },
-  { label: "Payments", href: "/admin-dashboard/payments", icon: CreditCard },
-  {
-    label: "System Settings",
-    href: "/admin-dashboard/settings",
-    icon: Settings,
-  },
+  // { label: "Specialties", href: "/admin-dashboard/specialties", icon: Award },
+  // { label: "Payments", href: "/admin-dashboard/payments", icon: CreditCard },
+  // {
+  //   label: "System Settings",
+  //   href: "/admin-dashboard/settings",
+  //   icon: Settings,
+  // },
 ];
 export const sidebarMenuItems = {
   ADMIN: ADMIN_SIDEBAR_ITEMS,

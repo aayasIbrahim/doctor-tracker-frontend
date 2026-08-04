@@ -1,13 +1,13 @@
 "use server";
 
 import config from "@/config";
-import { FormActionState, LoginActionState } from "@/lib/types";
+import { ILoginApiResponse, IUserApiResponse } from "@/lib/types";
 import jwt from "jsonwebtoken";
 import { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 export const createLogin = async (
-  prevState: LoginActionState | null,
+  prevState: ILoginApiResponse | null,
   formdata: FormData,
 ) => {
   const payload = {
@@ -29,7 +29,7 @@ export const createLogin = async (
     body: JSON.stringify(payload),
     cache: "no-store",
   });
-  const result = await res.json();
+  const result: ILoginApiResponse = await res.json();
 
   if (!result.success) {
     return {
@@ -58,7 +58,9 @@ export const createLogin = async (
     });
   }
 
-  const decodeaccsseToken = jwt.decode(result.data.accessToken) as JwtPayload;
+  const decodeaccsseToken = jwt.decode(
+    result.data?.accessToken as string,
+  ) as JwtPayload;
   if (decodeaccsseToken.role === "ADMIN") {
     redirect("/admin-dashboard");
   }
@@ -66,9 +68,9 @@ export const createLogin = async (
 };
 
 export const createRegister = async (
-  prevState: FormActionState | null,
+  prevState: IUserApiResponse | null,
   formdata: FormData,
-): Promise<FormActionState> => {
+): Promise<IUserApiResponse> => {
   const payload = {
     name: formdata.get("name") as string,
     email: formdata.get("email") as string,
@@ -97,7 +99,7 @@ export const createRegister = async (
     },
     body: JSON.stringify(payload),
   });
-  const result = await res.json();
+  const result: IUserApiResponse = await res.json();
 
   return result;
 };

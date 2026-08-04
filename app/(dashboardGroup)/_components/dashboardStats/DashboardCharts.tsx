@@ -21,7 +21,7 @@ interface ChartsProps {
 }
 
 export default function DashboardCharts({ stats }: ChartsProps) {
-  // Format Date for Chart (2026-08-02 -> Aug 02)
+
   const formattedDateData =
     stats?.data.dateBasedPatients?.map((item) => ({
       ...item,
