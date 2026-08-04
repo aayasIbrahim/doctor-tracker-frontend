@@ -1,3 +1,6 @@
+import { LucideProps } from "lucide-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+
 export interface IUser {
   success: boolean;
   statusCode?: number;
@@ -48,3 +51,27 @@ export type LoginActionState = {
 export type NavbarProps = {
   user: IUser;
 };
+
+export type ISidebarItem = {
+    label: string,
+    href: string,
+    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
+}
+export interface IDashboardStats {
+  data: {
+    overview: {
+      totalDoctors: number;
+      totalPatients: number;
+    };
+    patientsPerDoctor: {
+      _id: string;
+      totalPatients: number;
+      doctorName: string;
+      specialization: string;
+    }[];
+    dateBasedPatients: {
+      _id: string; 
+      count: number;
+    }[];
+  };
+}

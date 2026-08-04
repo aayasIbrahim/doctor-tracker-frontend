@@ -1,7 +1,7 @@
 "use server";
 
 import config from "@/config";
-import { FormActionState, LoginActionState } from "@/types";
+import { FormActionState, LoginActionState } from "@/lib/types";
 import jwt from "jsonwebtoken";
 import { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";

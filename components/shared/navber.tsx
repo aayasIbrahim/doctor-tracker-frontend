@@ -7,14 +7,13 @@ import {
   HeartPulse,
   User,
   Settings,
-  LogOut,
   LayoutDashboard,
   Stethoscope,
   Users,
   LogOutIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 
 import {
@@ -26,7 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { NavbarProps } from "@/types";
+import { NavbarProps } from "@/lib/types";
 import { logout } from "@/services/logout";
 
 // Healthcare specific navigation links
@@ -43,11 +42,10 @@ const userMenuItems = [
 ];
 export function Navbar({ user }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter();
 
   const handleUsermMenuAction = async (action: string) => {
     if (action == "logOut") {
-      await logout()
+      await logout();
     }
   };
   const toggleMobileMenu = () => {
@@ -99,7 +97,7 @@ export function Navbar({ user }: NavbarProps) {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuGroup>
+                <DropdownMenuGroup>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-medium leading-none">
