@@ -12,35 +12,41 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { IDoctor } from "@/types";
 import {
   PencilIcon,
   PlusIcon,
-  Stethoscope,
-  Building2,
-  Phone,
-  Mail,
   User,
+  Phone,
+  Activity,
+  Calendar,
   Loader2,
 } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { createDoctor, updateDoctor } from "../../_action/doctorActions";
-import { IDoctor } from "@/lib/types";
+import { IPatient } from "@/lib/types";
+import {
+  addPatientUnderDoctor,
+  updatePatient,
+} from "../../_action/patientAction";
 
-type DoctorFormDialogProps = {
+type PatientFormDialogProps = {
   mode: "create" | "edit";
-  doctor?: IDoctor;
+  doctorId: string;
+  patient?: IPatient;
 };
 
-export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
+export function PatientFormDialog({
+  mode,
+  doctorId,
+  patient,
+}: PatientFormDialogProps) {
   const [open, setOpen] = useState(false);
 
-  //   Bind doctor ID for edit mode
+  // Dynamic Server Action binding based on mode
   const action =
-    mode === "edit" && doctor
-      ? updateDoctor.bind(null, doctor._id)
-      : createDoctor;
+    mode === "edit" && patient
+      ? updatePatient.bind(null, patient._id)
+      : addPatientUnderDoctor.bind(null, doctorId || "");
 
   const [state, formAction, pending] = useActionState(action, null);
 
@@ -51,11 +57,10 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
       toast.success(
         state.message ||
           (mode === "edit"
-            ? "Doctor updated successfully"
-            : "Doctor created successfully"),
+            ? "Patient updated successfully"
+            : "Patient added successfully"),
       );
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- closing the dialog is the intended reaction to the server action's result, not a render loop
-      setOpen(false);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpen(false);
     } else {
       toast.error(state.message || "Something went wrong");
@@ -80,7 +85,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
         ) : (
           <>
             <PlusIcon className="h-4 w-4" />
-            Add New Doctor
+            Add Patient
           </>
         )}
       </DialogTrigger>
@@ -88,102 +93,106 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
       <DialogContent className="max-w-md sm:max-w-lg border-border/80 shadow-lg">
         <DialogHeader className="space-y-1">
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
-            <Stethoscope className="h-5 w-5 text-primary" />
-            {mode === "edit" ? "Edit Doctor Profile" : "Register New Doctor"}
+            <User className="h-5 w-5 text-primary" />
+            {mode === "edit" ? "Edit Patient Details" : "Assign New Patient"}
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
             {mode === "edit"
-              ? "Update medical specialist details below."
-              : "Fill in the required information to add a doctor to the system."}
+              ? "Update existing patient record."
+              : "Fill details to assign a patient under this doctor."}
           </DialogDescription>
         </DialogHeader>
 
-        <form  key={mode === "edit" ? doctor?._id : "create-doctor-form"} action={formAction} className="space-y-4 py-2">
-          {/* Doctor Name */}
+        <form action={formAction} className="space-y-4 py-2">
+          {/* Patient Name */}
           <div className="space-y-1.5">
             <Label htmlFor="name" className="text-xs font-semibold">
-              Full Name <span className="text-destructive">*</span>
+              Patient Name <span className="text-destructive">*</span>
             </Label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="name"
                 name="name"
-                placeholder="Dr. Marcus Vance"
-                defaultValue={doctor?.name || ""}
+                placeholder="John Doe"
+                defaultValue={patient?.name || ""}
                 required
                 className="pl-9 h-9 text-xs"
               />
             </div>
           </div>
 
-          {/* Specialization & Hospital Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Age */}
             <div className="space-y-1.5">
-              <Label htmlFor="specialization" className="text-xs font-semibold">
-                Specialization <span className="text-destructive">*</span>
+              <Label htmlFor="age" className="text-xs font-semibold">
+                Age <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
-                <Stethoscope className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  id="specialization"
-                  name="specialization"
-                  placeholder="Cardiology"
-                  defaultValue={doctor?.specialization|| ""}
+                  id="age"
+                  type="number"
+                  name="age"
+                  placeholder="e.g. 28"
+                  defaultValue={patient?.age || ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />
               </div>
             </div>
 
+            {/* Gender */}
             <div className="space-y-1.5">
-              <Label htmlFor="hospital" className="text-xs font-semibold">
-                Hospital / Clinic <span className="text-destructive">*</span>
+              <Label htmlFor="gender" className="text-xs font-semibold">
+                Gender <span className="text-destructive">*</span>
               </Label>
-              <div className="relative">
-                <Building2 className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  id="hospital"
-                  name="hospital"
-                  placeholder="Central Hospital"
-                  defaultValue={doctor?.hospital|| ""}
-                  required
-                  className="pl-9 h-9 text-xs"
-                />
-              </div>
+              <select
+                id="gender"
+                name="gender"
+                defaultValue={patient?.gender || "Male"}
+                required
+                className="w-full h-9 px-3 rounded-md border border-input bg-background text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
           </div>
 
-          {/* Phone & Email Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Phone */}
             <div className="space-y-1.5">
               <Label htmlFor="phone" className="text-xs font-semibold">
-                Phone Number
+                Phone Number <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="phone"
                   name="phone"
-                  placeholder="+1-555-015-1122"
-                  defaultValue={doctor?.phone|| ""}
+                  placeholder="+1234567890"
+                  defaultValue={patient?.phone || ""}
+                  required
                   className="pl-9 h-9 text-xs"
                 />
               </div>
             </div>
 
+            {/* Medical Condition */}
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-xs font-semibold">
-                Email Address <span className="text-destructive">*</span>
+              <Label htmlFor="condition" className="text-xs font-semibold">
+                Condition / Diagnosis{" "}
+                <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Activity className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="doctor@hospital.org"
-                  defaultValue={doctor?.email|| ""}
+                  id="condition"
+                  name="condition"
+                  placeholder="e.g. Fever, Hypertension"
+                  defaultValue={patient?.condition || ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />
@@ -211,8 +220,8 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
               {pending
                 ? "Saving..."
                 : mode === "edit"
-                  ? "Update Doctor"
-                  : "Create Doctor"}
+                  ? "Update Patient"
+                  : "Add Patient"}
             </Button>
           </DialogFooter>
         </form>

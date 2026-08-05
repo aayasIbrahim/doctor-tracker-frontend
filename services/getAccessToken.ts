@@ -9,9 +9,9 @@ export async function getAccessToken() {
       success: false,
       statusCode: 401,
       message: "Unauthorized: Access token not found.",
+      data: null,
     };
 
-    
     console.error("❌ Auth Error:", errorPayload);
 
     return {

@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { DoctorFormDialog } from "../../_components/doctor/DoctorFormDailog";
 import { DoctorList } from "../../_components/doctor/DoctorList";
 import { DoctorSkeleton } from "../../_components/doctor/DoctorSkeleton";
-import { Stethoscope } from "lucide-react";
+
 
 export default async function DoctorsPage({
   searchParams,
@@ -10,18 +10,8 @@ export default async function DoctorsPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 
-  // <div className="p-6 space-y-4">
-  //       <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-  //       <p className="text-muted-foreground">
-  //         Welcome to the MediPulse Admin Management System.
-  //       </p>
+ 
   
-  //       <Suspense fallback={<DashboardSkeleton />}>
-  //         <DashboardDataContent />
-  //       </Suspense>
-  //     </div>
-  //   );
-  // }
   
   return (
     <div className="p-6 space-y-4">

@@ -1,11 +1,13 @@
 "use server";
-import { ISingleDoctorResponse } from "./../../../lib/types";
+import {
+  IDoctorPatientsResponse,
+  ISingleDoctorResponse,
+} from "./../../../lib/types";
 
 import config from "@/config";
 import { getAccessToken } from "@/services/getAccessToken";
 import { isAccessTokenExist } from "@/services/refreshToken";
-import { revalidateTag } from "next/cache";
-
+import { revalidatePath } from "next/cache";
 
 export const getAllDoctors = async ({
   query,
@@ -66,7 +68,7 @@ export const createDoctor = async (
       message: "Required fields (Name, Email, Specialization) are missing.",
     };
   }
-    const token=await isAccessTokenExist()
+  const token = await isAccessTokenExist();
   const res = await fetch(`${config.backend_url}/api/doctors`, {
     method: "POST",
     headers: {
@@ -77,11 +79,27 @@ export const createDoctor = async (
   });
   const result: ISingleDoctorResponse = await res.json();
   if (result?.success) {
-    revalidateTag("doctors", "revalidate");
+    revalidatePath("/admin-dashbord/doctors");
   }
   return result;
 };
+export const getDoctorById = async (
+  doctorId: string,
+): Promise<ISingleDoctorResponse> => {
+  const { error, token } = await getAccessToken();
 
+  if (error) {
+    return error;
+  }
+  const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
+    method: "GET",
+    headers: {
+      cookie: `accessToken=${token}`,
+    },
+  });
+  const result: ISingleDoctorResponse = await res.json();
+  return result;
+};
 export const updateDoctor = async (
   doctorId: string,
   prevState: ISingleDoctorResponse | null,
@@ -95,7 +113,7 @@ export const updateDoctor = async (
     email: formData.get("email") ?? "",
   };
 
-  const token=await isAccessTokenExist()
+  const token = await isAccessTokenExist();
   const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
     method: "PUT",
     headers: {
@@ -105,7 +123,9 @@ export const updateDoctor = async (
     body: JSON.stringify(payload),
   });
   const result: ISingleDoctorResponse = await res.json();
-  
+  if (result?.success) {
+    revalidatePath("/admin-dashbord/doctors");
+  }
   return result;
 };
 export const deleteDoctor = async (doctorId: string) => {
@@ -123,7 +143,29 @@ export const deleteDoctor = async (doctorId: string) => {
   });
   const result: ISingleDoctorResponse = await res.json();
   if (result?.success) {
-    revalidateTag("doctors", "revalidate");
+    revalidatePath("/admin-dashbord/doctors");
   }
+  return result;
+};
+
+export const getDoctorPatients = async (
+  doctorId: string,
+): Promise<IDoctorPatientsResponse | null> => {
+  const { error, token } = await getAccessToken();
+  if (error) {
+    return null;
+  }
+  const res = await fetch(
+    `${config.backend_url}/api/doctors/${doctorId}/patients`,
+    {
+      headers: {
+        cookie: `accessToken=${token}`,
+      },
+      cache: "no-store",
+    },
+  );
+
+  const result: IDoctorPatientsResponse = await res.json();
+
   return result;
 };

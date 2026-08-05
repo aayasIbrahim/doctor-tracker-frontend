@@ -102,7 +102,7 @@ export async function DoctorList({
         actions={(doctor) => (
           <>
             {/* View Details */}
-            <Link href={`/doctors/${doctor._id}`}>
+            <Link href={`/admin-dashboard/doctors/${doctor._id}`}>
               <Button
                 variant="ghost"
                 size="icon"

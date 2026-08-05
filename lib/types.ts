@@ -104,3 +104,43 @@ export interface IDoctorQuery {
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }
+export interface IPatient {
+  _id: string;
+  name: string;
+  age: number;
+  gender: "Male" | "Female" | "Other";
+  condition: string;
+  phone: string;
+  doctorId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+
+export interface IDoctorSummary {
+  id: string;
+  name: string;
+  specialization: string;
+  hospital: string;
+}
+
+
+export interface IDoctorPatientsData {
+  doctor: IDoctorSummary;
+  totalPatients: number;
+  patients: IPatient[];
+}
+export interface ISinglePatientResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data?: IPatient | null;
+}
+
+export interface IDoctorPatientsResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: IDoctorPatientsData;
+}
