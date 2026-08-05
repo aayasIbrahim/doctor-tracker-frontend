@@ -5,76 +5,6 @@ import { ISingleDoctorResponse } from "@/lib/types";
 import { getAccessToken } from "@/services/getAccessToken";
 import { revalidatePath } from "next/cache";
 
-
-export const addPatientUnderDoctor = async (
-  doctorId: string,
-  prevState: ISingleDoctorResponse | null,
-  formData: FormData,
-): Promise<ISingleDoctorResponse | null> => {
-  const { error, token } = await getAccessToken();
-  if (error) {
-    throw new Error("Unauthorized");
-  }
-  const payload = {
-    name: formData.get("name"),
-    age: Number(formData.get("age")),
-    gender: formData.get("gender"),
-    condition: formData.get("condition"),
-    phone: formData.get("phone"),
-  };
-  const res = await fetch(
-    `${config.backend_url}/api/doctors/${doctorId}/patients`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        cookie: `accessToken=${token}`,
-      },
-      body: JSON.stringify(payload),
-    },
-  );
-
-  const result = await res.json();
-  if (result?.success) {
-    revalidatePath(`/admin-dashboard/doctors/${doctorId}`);
-  }
-  return result;
-};
-export const updatePatient = async (
-  patientId: string,
-  pravState: ISingleDoctorResponse | null,
-  formData: FormData,
-): Promise<ISingleDoctorResponse | null> => {
-  const { error, token } = await getAccessToken();
-  if (error) {
-    throw new Error("Unauthorized");
-  }
-  const payload = {
-    name: formData.get("name"),
-    specialization: formData.get("specialization"),
-    hospital: formData.get("hospital"),
-    phone: formData.get("phone"),
-    email: formData.get("email"),
-  };
-  const res = await fetch(
-    `${config.backend_url}/api/patinets/${patientId}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        cookie: `accessToken=${token}`,
-      },
-      body: JSON.stringify(payload),
-    },
-  );
-
-  const result = await res.json();
-  if (result?.success) {
-    revalidatePath(`/admin-dashboard/doctors`);
-  }
-  return result;
-};
-
 export const getAllPatients = async ({
   query,
 }: {
@@ -108,5 +38,56 @@ export const getAllPatients = async ({
     },
   );
   const result = await res.json();
+  return result;
+};
+
+export const updatePatient = async (
+  patientId: string,
+  pravState: ISingleDoctorResponse | null,
+  formData: FormData,
+): Promise<ISingleDoctorResponse | null> => {
+  const { error, token } = await getAccessToken();
+  if (error) {
+    throw new Error("Unauthorized");
+  }
+  const payload = {
+    name: formData.get("name") ?? "",
+    specialization: formData.get("specialization") ?? "",
+    hospital: formData.get("hospital") ?? "",
+    phone: formData.get("phone") ?? "",
+    email: formData.get("email") ?? "",
+  };
+  const res = await fetch(`${config.backend_url}/api/patinets/${patientId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      cookie: `accessToken=${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await res.json();
+  if (result?.success) {
+    revalidatePath(`/admin-dashboard/patients`);
+  }
+  return result;
+};
+export const deletePaitent = async (patientId: string) => {
+  const { error, token } = await getAccessToken();
+
+  if (error) {
+    throw new Error("Unauthorize");
+  }
+  const res = await fetch(`${config.backend_url}/api/patients/${patientId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      cookie: `accessToken=${token}`,
+    },
+  });
+  const result: ISingleDoctorResponse = await res.json();
+  if (result?.success) {
+    revalidatePath("/admin-dashbord/patients");
+  }
   return result;
 };

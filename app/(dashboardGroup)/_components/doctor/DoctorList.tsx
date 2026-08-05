@@ -115,11 +115,11 @@ export async function DoctorList({
             {/* Edit Dialog */}
             <DoctorFormDialog mode="edit" doctor={doctor} />
 
-            {/* Reusable Delete Button */}
             <DeleteButton
               id={doctor._id}
               deleteAction={deleteDoctor}
-              title="Delete Doctor"
+              title="Remove Doctor?"
+              description={`Are you sure you want to remove ${doctor.name} from this doctor's list?`}
             />
           </>
         )}

@@ -132,7 +132,7 @@ export const deleteDoctor = async (doctorId: string) => {
   const { error, token } = await getAccessToken();
 
   if (error) {
-    return error;
+    throw new Error("Unauthorize");
   }
   const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
     method: "DELETE",
@@ -147,7 +147,40 @@ export const deleteDoctor = async (doctorId: string) => {
   }
   return result;
 };
+export const addPatientUnderDoctor = async (
+  doctorId: string,
+  prevState: ISingleDoctorResponse | null,
+  formData: FormData,
+): Promise<ISingleDoctorResponse | null> => {
+  const { error, token } = await getAccessToken();
+  if (error) {
+    throw new Error("Unauthorized");
+  }
+  const payload = {
+    name: formData.get("name"),
+    age: Number(formData.get("age")),
+    gender: formData.get("gender"),
+    condition: formData.get("condition"),
+    phone: formData.get("phone"),
+  };
+  const res = await fetch(
+    `${config.backend_url}/api/doctors/${doctorId}/patients`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        cookie: `accessToken=${token}`,
+      },
+      body: JSON.stringify(payload),
+    },
+  );
 
+  const result = await res.json();
+  if (result?.success) {
+    revalidatePath(`/admin-dashboard/doctors/${doctorId}`);
+  }
+  return result;
+};
 export const getDoctorPatients = async (
   doctorId: string,
 ): Promise<IDoctorPatientsResponse | null> => {
@@ -167,5 +200,30 @@ export const getDoctorPatients = async (
 
   const result: IDoctorPatientsResponse = await res.json();
 
+  return result;
+};
+export const removePatientFromDoctor = async (
+  doctorId: string,
+  patientId: string,
+) => {
+  const { error, token } = await getAccessToken();
+
+  if (error) {
+    throw new Error("Unauthorize");
+  }
+  const res = await fetch(
+    `${config.backend_url}/api/doctors/${doctorId}/patients/${patientId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        cookie: `accessToken=${token}`,
+      },
+    },
+  );
+  const result = await res.json();
+  if (result?.success) {
+    revalidatePath(`/admin-dashboard/doctors/${doctorId}`);
+  }
   return result;
 };

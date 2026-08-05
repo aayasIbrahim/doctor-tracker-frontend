@@ -25,9 +25,9 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { IPatient } from "@/lib/types";
 import {
-  addPatientUnderDoctor,
   updatePatient,
 } from "../../_action/patientAction";
+import { addPatientUnderDoctor } from "../../_action/doctorActions";
 
 type PatientFormDialogProps = {
   mode: "create" | "edit";

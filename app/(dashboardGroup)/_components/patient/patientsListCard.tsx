@@ -1,67 +1,126 @@
 import React from "react";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, Phone, Activity, Calendar } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { User, Phone, Activity, Calendar, UserX } from "lucide-react";
 import { IPatient } from "@/lib/types";
+import { DeleteButton } from "../DeleteButton";
+import { removePatientFromDoctor } from "../../_action/doctorActions";
 
 interface PatientGridListProps {
   patients: IPatient[];
+  doctorId?: string; // Optional: doctorId props হিসেবে দিলে আরও ক্লিন হয়
 }
 
-export function PatientCardList({ patients }: PatientGridListProps) {
+export function PatientCardList({ patients, doctorId }: PatientGridListProps) {
   if (!patients || patients.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed p-8 text-center">
-        <User className="mx-auto h-8 w-8 text-muted-foreground/60 mb-2" />
-        <p className="text-sm text-muted-foreground font-medium">
-          No patients found for this doctor.
+      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 p-10 text-center animate-in fade-in-50">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+          <UserX className="h-6 w-6 text-muted-foreground" />
+        </div>
+        <h3 className="mt-3 text-sm font-semibold text-foreground">
+          No Patients Assigned
+        </h3>
+        <p className="mt-1 text-xs text-muted-foreground max-w-xs">
+          There are currently no patients assigned to this doctor.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {patients.map((patient) => (
-        <Card
-          key={patient._id}
-          className="shadow-xs hover:shadow-md transition-shadow border-border/60"
-        >
-          <CardHeader className="pb-2">
-            <div className="flex items-start justify-between">
-              <CardTitle className="text-base font-semibold">
-                {patient.name}
-              </CardTitle>
-              <Badge variant="outline" className="text-xs">
-                {patient.gender}
-              </Badge>
-            </div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-              <Calendar className="h-3 w-3" /> Age: {patient.age} Yrs
-            </p>
-          </CardHeader>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {patients.map((patient) => {
+        // Name-এর প্রথমাংশ থেকে Avatar Initials তৈরি
+        const initials = patient.name
+          ?.split(" ")
+          .map((n) => n[0])
+          .join("")
+          .substring(0, 2)
+          .toUpperCase() || "P";
 
-          <CardContent className="space-y-2 text-xs">
-            <div className="rounded-md bg-muted/50 p-2.5">
-              <span className="text-muted-foreground block text-[10px] font-semibold uppercase tracking-wider">
-                Condition
-              </span>
-              <p className="font-medium text-primary flex items-center gap-1.5 mt-0.5">
-                <Activity className="h-3.5 w-3.5" />
-                {patient.condition || "General Illness"}
-              </p>
-            </div>
+        const currentDoctorId = doctorId || patient.doctorId;
 
-            {patient.phone && (
-              <div className="flex items-center gap-1.5 text-muted-foreground pt-1">
-                <Phone className="h-3.5 w-3.5" />
-                <span>{patient.phone}</span>
+        return (
+          <Card
+            key={patient._id}
+            className="group relative overflow-hidden border-border/60 transition-all duration-200 hover:border-border hover:shadow-md dark:bg-card"
+          >
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between gap-2">
+                {/* User Info with Avatar */}
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-9 w-9 border border-border/50 bg-primary/5 text-primary font-medium text-xs">
+                    <AvatarFallback>{initials}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <CardTitle className="text-sm font-semibold tracking-tight line-clamp-1">
+                      {patient.name}
+                    </CardTitle>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <Badge
+                        variant="secondary"
+                        className="text-[10px] px-1.5 py-0 font-normal uppercase tracking-wider"
+                      >
+                        {patient.gender}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Top Right Action */}
+                <div className="opacity-80 group-hover:opacity-100 transition-opacity">
+                  <DeleteButton
+                    id={patient._id}
+                    deleteAction={removePatientFromDoctor.bind(
+                      null,
+                      currentDoctorId
+                    )}
+                    title="Remove Patient?"
+                    description={`Are you sure you want to remove ${patient.name} from this doctor's list?`}
+                  />
+                </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
-      ))}
+            </CardHeader>
+
+            <CardContent className="space-y-3 pt-0 text-xs">
+              {/* Condition Block */}
+              <div className="rounded-lg bg-accent/40 border border-accent p-2.5">
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">
+                  Medical Condition
+                </span>
+                <p className="font-medium text-foreground flex items-center gap-1.5 text-xs">
+                  <Activity className="h-3.5 w-3.5 text-primary shrink-0" />
+                  <span className="line-clamp-1">
+                    {patient.condition || "General Checkup"}
+                  </span>
+                </p>
+              </div>
+
+              {/* Patient Meta Details */}
+              <div className="grid grid-cols-2 gap-2 text-muted-foreground pt-0.5">
+                <div className="flex items-center gap-1.5">
+                  <Calendar className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" />
+                  <span>{patient.age} Years Old</span>
+                </div>
+
+                {patient.phone ? (
+                  <div className="flex items-center gap-1.5 truncate">
+                    <Phone className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" />
+                    <span className="truncate">{patient.phone}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <User className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" />
+                    <span>No Phone</span>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 }
