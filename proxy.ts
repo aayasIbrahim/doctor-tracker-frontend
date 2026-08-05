@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { jwtUtils } from "./utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
-import { getnewAccessToken } from "./services/refreshToken";
+import { getNewAccessToken } from "./services/refreshToken";
 
 const AUTH_ROUTES = ["/login", "/register"];
 const PUBLIC_ROUTES = ["/"];
@@ -30,7 +30,7 @@ export async function proxy(request: NextRequest) {
 
   if (!decodedAccessToken?.success && decodedRefreshToken?.success) {
     //access token has expired but refresh token is valid, get new access token from backend
-    const result = await getnewAccessToken();
+    const result = await getNewAccessToken();
     if (result.success) {
       const newAccessToken = result.data.newAccessToken;
 

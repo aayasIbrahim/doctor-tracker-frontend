@@ -110,7 +110,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                 id="name"
                 name="name"
                 placeholder="Dr. Marcus Vance"
-                defaultValue={doctor?.name}
+                defaultValue={doctor?.name || ""}
                 required
                 className="pl-9 h-9 text-xs"
               />
@@ -129,7 +129,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   id="specialization"
                   name="specialization"
                   placeholder="Cardiology"
-                  defaultValue={doctor?.specialization}
+                  defaultValue={doctor?.specialization|| ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />
@@ -146,7 +146,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   id="hospital"
                   name="hospital"
                   placeholder="Central Hospital"
-                  defaultValue={doctor?.hospital}
+                  defaultValue={doctor?.hospital|| ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />
@@ -166,7 +166,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   id="phone"
                   name="phone"
                   placeholder="+1-555-015-1122"
-                  defaultValue={doctor?.phone}
+                  defaultValue={doctor?.phone|| ""}
                   className="pl-9 h-9 text-xs"
                 />
               </div>
@@ -183,7 +183,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   type="email"
                   name="email"
                   placeholder="doctor@hospital.org"
-                  defaultValue={doctor?.email}
+                  defaultValue={doctor?.email|| ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />

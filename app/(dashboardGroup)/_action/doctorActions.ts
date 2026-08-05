@@ -3,8 +3,9 @@ import { ISingleDoctorResponse } from "./../../../lib/types";
 
 import config from "@/config";
 import { getAccessToken } from "@/services/getAccessToken";
+import { isAccessTokenExist } from "@/services/refreshToken";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
+
 
 export const getAllDoctors = async ({
   query,
@@ -65,20 +66,12 @@ export const createDoctor = async (
       message: "Required fields (Name, Email, Specialization) are missing.",
     };
   }
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
-  if (!accessToken) {
-    return {
-      success: false,
-      statusCode: 400,
-      message: "Unauthorized: Access token not found.",
-    };
-  }
+    const token=await isAccessTokenExist()
   const res = await fetch(`${config.backend_url}/api/doctors`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      cookie: `accessToken=${accessToken}`,
+      cookie: `accessToken=${token}`,
     },
     body: JSON.stringify(payload),
   });
@@ -102,28 +95,17 @@ export const updateDoctor = async (
     email: formData.get("email") ?? "",
   };
 
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value || null;
-  if (!accessToken) {
-    return {
-      success: false,
-      statusCode: 400,
-      message: "Unauthorized: Access token not found.",
-    };
-  }
+  const token=await isAccessTokenExist()
   const res = await fetch(`${config.backend_url}/api/doctors/${doctorId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      cookie: `accessToken=${accessToken}`,
+      cookie: `accessToken=${token}`,
     },
     body: JSON.stringify(payload),
   });
   const result: ISingleDoctorResponse = await res.json();
-  console.log(result);
-  if (result?.success) {
-    revalidateTag("doctors", "revalidate");
-  }
+  
   return result;
 };
 export const deleteDoctor = async (doctorId: string) => {
