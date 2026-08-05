@@ -57,7 +57,7 @@ export const updatePatient = async (
     phone: formData.get("phone") ?? "",
     email: formData.get("email") ?? "",
   };
-  const res = await fetch(`${config.backend_url}/api/patinets/${patientId}`, {
+  const res = await fetch(`${config.backend_url}/api/patients/${patientId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

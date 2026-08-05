@@ -152,10 +152,7 @@ export const addPatientUnderDoctor = async (
   prevState: ISingleDoctorResponse | null,
   formData: FormData,
 ): Promise<ISingleDoctorResponse | null> => {
-  const { error, token } = await getAccessToken();
-  if (error) {
-    throw new Error("Unauthorized");
-  }
+  const token = await isAccessTokenExist();
   const payload = {
     name: formData.get("name"),
     age: Number(formData.get("age")),

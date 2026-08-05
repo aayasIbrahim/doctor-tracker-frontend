@@ -7,6 +7,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 export const createLogin = async (
+  redirectTo: string,
   prevState: ILoginApiResponse | null,
   formdata: FormData,
 ) => {
@@ -57,7 +58,14 @@ export const createLogin = async (
       path: "/",
     });
   }
-
+  if (
+    redirectTo &&
+    typeof redirectTo === "string" &&
+    redirectTo.startsWith("/") &&
+    !redirectTo.startsWith("//")
+  ) {
+    redirect(redirectTo);
+  }
   const decodeaccsseToken = jwt.decode(
     result.data?.accessToken as string,
   ) as JwtPayload;

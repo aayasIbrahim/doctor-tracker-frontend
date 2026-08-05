@@ -30,9 +30,9 @@ import { logout } from "@/services/logout";
 
 // Healthcare specific navigation links
 const navLinks = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Doctors", href: "/doctors", icon: Stethoscope },
-  { label: "Patients", href: "/patients", icon: Users },
+  { label: "Dashboard", href: "/admin-dashboard", icon: LayoutDashboard },
+  { label: "Doctors", href: "/admin-dashboard/doctors", icon: Stethoscope },
+  { label: "Patients", href: "/admin-dashboard/patients", icon: Users },
 ];
 // Profile menu items
 const userMenuItems = [
@@ -57,7 +57,7 @@ export function Navbar({ user }: NavbarProps) {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Left: Brand Logo */}
         <Link
-          href="/dashboard"
+          href="/"
           className="flex items-center gap-2.5 font-bold text-foreground transition-opacity hover:opacity-90"
         >
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">

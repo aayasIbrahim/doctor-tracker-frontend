@@ -8,13 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Column } from "@/lib/types";
 
-export interface Column<T> {
-  header: string;
-  accessorKey?: keyof T;
-  cell?: (item: T) => ReactNode;
-  className?: string;
-}
+
 
 interface DataTableProps<T> {
   columns: Column<T>[];

@@ -6,17 +6,22 @@ import { Input } from "@/components/ui/input";
 import React, { useActionState, useEffect } from "react";
 import { createLogin } from "../_action/authActions";
 import { toast } from "sonner";
-// import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
-  const [state, formAction, pending] = useActionState(createLogin,null);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") ?? "";
+  const [state, formAction, pending] = useActionState(
+    createLogin.bind(null, redirectTo),
+    null,
+  );
 
-    useEffect(() => {
-      if (!state) return;
-      if (!state.success) {
-        toast.error(state.message);
-      }
-    }, [state]);
+  useEffect(() => {
+    if (!state) return;
+    if (!state.success) {
+      toast.error(state.message);
+    }
+  }, [state]);
   return (
     <form action={formAction} className="space-y-4">
       <Card className="p-5 space-y-4">

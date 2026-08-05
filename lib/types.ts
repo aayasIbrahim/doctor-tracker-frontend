@@ -1,5 +1,5 @@
 import { LucideProps } from "lucide-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
 
 export interface IUser {
   _id: string;
@@ -114,9 +114,9 @@ export interface IPatient {
   doctorId: string;
   createdAt: string;
   updatedAt: string;
+  email?: string;
   __v?: number;
 }
-
 
 export interface IDoctorSummary {
   id: string;
@@ -124,7 +124,6 @@ export interface IDoctorSummary {
   specialization: string;
   hospital: string;
 }
-
 
 export interface IDoctorPatientsData {
   doctor: IDoctorSummary;
@@ -143,4 +142,10 @@ export interface IDoctorPatientsResponse {
   statusCode: number;
   message: string;
   data: IDoctorPatientsData;
+}
+export interface Column<T> {
+  header: string;
+  accessorKey?: keyof T;
+  cell?: (item: T) => ReactNode;
+  className?: string;
 }

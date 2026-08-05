@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { DashboardSkeleton } from "../_components/dashboardStats/DashboardSkeleton";
+import { DashboardSkeleton } from "../_components/DashboardSkeleton";
 import { DashboardDataContent } from "../_components/dashboardStats/DashboardDataContent";
 
 export default function AdminDashboardPage() {

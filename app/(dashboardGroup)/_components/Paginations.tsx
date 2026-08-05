@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
@@ -9,41 +10,43 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { usePathname, useSearchParams } from "next/navigation";
 
 interface PaginationProps {
   totalPages: number;
-  currentPage: number;
+  currentPage?: number;
 }
 
-export function Paginations({
-  totalPages,
-  currentPage,
-}: PaginationProps) {
+export function Paginations({ totalPages, currentPage = 1 }: PaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  
+  const queryPage = Number(searchParams.get("page"));
+  const validCurrentPage = Math.max(
+    1,
+    Math.min(
+      isNaN(queryPage) || queryPage <= 0 ? currentPage : queryPage,
+      totalPages || 1,
+    ),
+  );
+
+  if (!totalPages || totalPages <= 1) return null;
+
   const createPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams.toString());
     params.set("page", pageNumber.toString());
     return `${pathname}?${params.toString()}`;
   };
 
-  
   const generatePagination = () => {
-
     if (totalPages <= 7) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-
-    if (currentPage <= 3) {
+    if (validCurrentPage <= 3) {
       return [1, 2, 3, 4, "...", totalPages];
     }
 
-    // বর্তমান পেজ একদম শেষের দিকে থাকলে
-    if (currentPage >= totalPages - 2) {
+    if (validCurrentPage >= totalPages - 2) {
       return [
         1,
         "...",
@@ -57,9 +60,9 @@ export function Paginations({
     return [
       1,
       "...",
-      currentPage - 1,
-      currentPage,
-      currentPage + 1,
+      validCurrentPage - 1,
+      validCurrentPage,
+      validCurrentPage + 1,
       "...",
       totalPages,
     ];
@@ -68,15 +71,20 @@ export function Paginations({
   const pages = generatePagination();
 
   return (
-    <Pagination className="my-6">
+    <Pagination className="my-6 select-none">
       <PaginationContent>
         {/* Previous Button */}
         <PaginationItem>
           <PaginationPrevious
-            href={currentPage > 1 ? createPageURL(currentPage - 1) : "#"}
-            aria-disabled={currentPage <= 1}
+            href={
+              validCurrentPage > 1 ? createPageURL(validCurrentPage - 1) : "#"
+            }
+            aria-disabled={validCurrentPage <= 1}
+            tabIndex={validCurrentPage <= 1 ? -1 : undefined}
             className={
-              currentPage <= 1 ? "pointer-events-none opacity-50" : ""
+              validCurrentPage <= 1
+                ? "pointer-events-none opacity-50 cursor-not-allowed"
+                : "hover:bg-accent transition-colors"
             }
           />
         </PaginationItem>
@@ -91,11 +99,18 @@ export function Paginations({
             );
           }
 
+          const isPageActive = validCurrentPage === Number(page);
+
           return (
-            <PaginationItem key={page}>
+            <PaginationItem key={`page-${page}`}>
               <PaginationLink
                 href={createPageURL(page)}
-                isActive={currentPage === page}
+                isActive={isPageActive}
+                className={
+                  isPageActive
+                    ? "font-semibold shadow-xs"
+                    : "hover:bg-accent transition-colors"
+                }
               >
                 {page}
               </PaginationLink>
@@ -107,13 +122,16 @@ export function Paginations({
         <PaginationItem>
           <PaginationNext
             href={
-              currentPage < totalPages
-                ? createPageURL(currentPage + 1)
+              validCurrentPage < totalPages
+                ? createPageURL(validCurrentPage + 1)
                 : "#"
             }
-            aria-disabled={currentPage >= totalPages}
+            aria-disabled={validCurrentPage >= totalPages}
+            tabIndex={validCurrentPage >= totalPages ? -1 : undefined}
             className={
-              currentPage >= totalPages ? "pointer-events-none opacity-50" : ""
+              validCurrentPage >= totalPages
+                ? "pointer-events-none opacity-50 cursor-not-allowed"
+                : "hover:bg-accent transition-colors"
             }
           />
         </PaginationItem>
@@ -121,3 +139,5 @@ export function Paginations({
     </Pagination>
   );
 }
+
+export default Paginations;
