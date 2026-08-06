@@ -1,10 +1,10 @@
-import { removePatientFromDoctor } from "../../_action/doctorActions";
+
 import { DeleteButton } from "../DeleteButton";
 import { DataTable } from "../DataTable";
 import { Paginations } from "../Paginations";
 import { IPatient } from "@/lib/types";
 import { PatientFormDialog } from "./PatientFormDailog";
-import { getAllPatients } from "../../_action/patientAction";
+import { deletePaitent, getAllPatients } from "../../_action/patientAction";
 import { PatientColumns } from "./PatientsTableColums";
 
 export async function PatientsList({
@@ -33,7 +33,6 @@ export async function PatientsList({
         emptyMessage="No doctors found matching the query criteria."
         actions={(patients) => (
           <>
-        
             {/* Edit Dialog */}
             <PatientFormDialog
               mode="edit"
@@ -43,7 +42,7 @@ export async function PatientsList({
 
             <DeleteButton
               id={patients._id}
-              deleteAction={removePatientFromDoctor.bind(null, patients._id)}
+              deleteAction={deletePaitent}
               title="Remove Patient?"
               description={`Are you sure you want to remove ${patients.name} from this patients list?`}
             />

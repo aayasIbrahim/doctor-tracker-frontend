@@ -1,7 +1,7 @@
 "use server";
 
 import config from "@/config";
-import { ISingleDoctorResponse } from "@/lib/types";
+import { DeleteActionResult, ISingleDoctorResponse } from "@/lib/types";
 import { getAccessToken } from "@/services/getAccessToken";
 import { revalidatePath } from "next/cache";
 
@@ -72,6 +72,7 @@ export const updatePatient = async (
   }
   return result;
 };
+
 export const deletePaitent = async (patientId: string) => {
   const { error, token } = await getAccessToken();
 
@@ -85,9 +86,10 @@ export const deletePaitent = async (patientId: string) => {
       cookie: `accessToken=${token}`,
     },
   });
-  const result: ISingleDoctorResponse = await res.json();
+  const result: DeleteActionResult = await res.json();
   if (result?.success) {
     revalidatePath("/admin-dashbord/patients");
   }
+
   return result;
 };

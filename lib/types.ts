@@ -29,6 +29,12 @@ export interface ILoginApiResponse {
   message: string;
   data?: IAuthTokens;
 }
+export interface DeleteActionResult {
+  success: boolean;
+  statusCode?: number;
+  message?: string;
+  data?: null;
+}
 
 export type NavbarProps = {
   user: IUserApiResponse;
@@ -148,4 +154,14 @@ export interface Column<T> {
   accessorKey?: keyof T;
   cell?: (item: T) => ReactNode;
   className?: string;
+}
+export interface FilterOption {
+  label: string;
+  value: string;
+}
+export interface FilterConfig {
+  key: string;
+  placeholder: string;
+  type?: "select" | "date" | "dateRange";
+  options?: FilterOption[];          
 }

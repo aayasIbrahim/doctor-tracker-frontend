@@ -1,6 +1,8 @@
 import React, { Suspense } from "react";
 import { DoctorSkeleton } from "../../_components/doctor/DoctorSkeleton";
 import { PatientsList } from "../../_components/patient/PatientsList";
+import { SearchAndFilter } from "../../_components/SearchAndFilter";
+import { patientFilters } from "../../_config/filter";
 
 export default function Patientspage({
   searchParams,
@@ -22,9 +24,11 @@ export default function Patientspage({
         </div>
 
         {/* Modal Trigger */}
-        <div className="flex-shrink-0"></div>
       </div>
-
+      <SearchAndFilter
+        searchPlaceholder="Search doctors by name or hospital..."
+        filters={patientFilters}
+      />
       {/* 2. Main Content Section (Data Table / List) */}
       <main className="w-full">
         <Suspense fallback={<DoctorSkeleton />}>

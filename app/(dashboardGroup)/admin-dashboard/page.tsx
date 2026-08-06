@@ -9,6 +9,7 @@ export default function AdminDashboardPage() {
       <p className="text-muted-foreground">
         Welcome to the MediPulse Admin Management System.
       </p>
+      
 
       <Suspense fallback={<DashboardSkeleton />}>
         <DashboardDataContent />

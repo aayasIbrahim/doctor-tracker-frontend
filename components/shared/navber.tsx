@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { NavbarProps } from "@/lib/types";
 import { logout } from "@/services/logout";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 // Healthcare specific navigation links
 const navLinks = [
@@ -38,14 +40,17 @@ const navLinks = [
 const userMenuItems = [
   { label: "Profile", icon: User, action: "profile" },
   { label: "Settings", icon: Settings, action: "settings" },
-  { label: "log out", icon: LogOutIcon, action: "logOut" },
+  { label: "log out", icon: LogOutIcon, action: "logout" },
 ];
 export function Navbar({ user }: NavbarProps) {
+  const router=useRouter()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleUsermMenuAction = async (action: string) => {
-    if (action == "logOut") {
-      await logout();
+      if(action === "logout"){
+        await logout();
+        toast.success("User Logged Out Successfully!");
+        router.push("/login");
     }
   };
   const toggleMobileMenu = () => {

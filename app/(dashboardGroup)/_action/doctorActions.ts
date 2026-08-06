@@ -1,5 +1,6 @@
 "use server";
 import {
+  DeleteActionResult,
   IDoctorPatientsResponse,
   ISingleDoctorResponse,
 } from "./../../../lib/types";
@@ -201,8 +202,9 @@ export const getDoctorPatients = async (
 };
 export const removePatientFromDoctor = async (
   doctorId: string,
+
   patientId: string,
-) => {
+): Promise<DeleteActionResult | null> => {
   const { error, token } = await getAccessToken();
 
   if (error) {
