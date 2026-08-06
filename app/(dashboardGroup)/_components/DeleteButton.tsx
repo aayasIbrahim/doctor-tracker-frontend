@@ -17,8 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 interface DeleteButtonProps {
-  id: string;
-  deleteAction: (id: string) => Promise<{ success: boolean; message?: string }>;
+  deleteAction: () => Promise<{ success?: boolean; message?: string } | null | void>;
   title?: string;
   description?: string;
   buttonText?: string;
@@ -28,7 +27,7 @@ interface DeleteButtonProps {
 }
 
 export function DeleteButton({
-  id,
+  
   deleteAction,
   title = "Are you sure?",
   description = "This action cannot be undone.",
@@ -43,7 +42,7 @@ export function DeleteButton({
   const handleDelete = () => {
     startTransition(async () => {
       try {
-        const result = await deleteAction(id);
+        const result = await deleteAction();
         if (result?.success) {
           toast.success(result.message || "Deleted successfully");
           setOpen(false);

@@ -53,8 +53,8 @@ export async function DoctorList({
             <DoctorFormDialog mode="edit" doctor={doctor} />
 
             <DeleteButton
-              id={doctor._id}
-              deleteAction={deleteDoctor}
+        
+              deleteAction={deleteDoctor.bind(null, doctor._id)}
               title="Remove Doctor?"
               description={`Are you sure you want to remove ${doctor.name} from this doctor's list?`}
             />

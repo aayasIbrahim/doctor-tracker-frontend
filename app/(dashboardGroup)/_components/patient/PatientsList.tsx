@@ -1,4 +1,3 @@
-
 import { DeleteButton } from "../DeleteButton";
 import { DataTable } from "../DataTable";
 import { Paginations } from "../Paginations";
@@ -41,8 +40,7 @@ export async function PatientsList({
             />
 
             <DeleteButton
-              id={patients._id}
-              deleteAction={deletePaitent}
+              deleteAction={deletePaitent.bind(null, patients._id)}
               title="Remove Patient?"
               description={`Are you sure you want to remove ${patients.name} from this patients list?`}
             />

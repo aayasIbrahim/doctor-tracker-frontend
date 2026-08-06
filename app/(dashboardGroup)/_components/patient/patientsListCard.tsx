@@ -4,15 +4,16 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Phone, Activity, Calendar, UserX } from "lucide-react";
 import { IPatient } from "@/lib/types";
-// import { DeleteButton } from "../DeleteButton";
-// import { removePatientFromDoctor } from "../../_action/doctorActions";
+import { DeleteButton } from "../DeleteButton";
+import { removePatientFromDoctor } from "../../_action/doctorActions";
+
 
 interface PatientGridListProps {
   patients: IPatient[];
-  doctorId?: string; // Optional: doctorId props হিসেবে দিলে আরও ক্লিন হয়
+  doctorId?: string; 
 }
 
-export function PatientCardList({ patients}: PatientGridListProps) {
+export function PatientCardList({ patients }: PatientGridListProps) {
   if (!patients || patients.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 p-10 text-center animate-in fade-in-50">
@@ -32,7 +33,6 @@ export function PatientCardList({ patients}: PatientGridListProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {patients.map((patient) => {
-        // Name-এর প্রথমাংশ থেকে Avatar Initials তৈরি
         const initials =
           patient.name
             ?.split(" ")
@@ -70,14 +70,11 @@ export function PatientCardList({ patients}: PatientGridListProps) {
 
                 {/* Top Right Action */}
                 <div className="opacity-80 group-hover:opacity-100 transition-opacity">
-                  {/* <DeleteButton
-                    id={patient._id}
-                    deleteAction={(id) =>
-                      removePatientFromDoctor(patient.doctorId, id)
-                    }
+                  <DeleteButton
+                    deleteAction={removePatientFromDoctor.bind(null,patient.doctorId,patient._id)}
                     title="Remove Patient?"
                     description={`Are you sure you want to remove ${patient.name} from this doctor's list?`}
-                  /> */}
+                  />
                 </div>
               </div>
             </CardHeader>
