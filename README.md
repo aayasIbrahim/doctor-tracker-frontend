@@ -52,6 +52,7 @@ Test the administrative features using the pre-configured credentials:
 │   ├── app/
 │   │   ├── (authGroup)/                  # Authentication Routes (Login, Register, etc.)
 │   │   │   └── login/
+│   │   │   └── register/
 │   │   │
 │   │   ├── (dashboardGroup)/             # Protected Administrative Dashboard Routes
 │   │   │   ├── _actions/            # Server Actions specific to Dashboard (Doctors, Patients, Stats)
@@ -65,7 +66,7 @@ Test the administrative features using the pre-configured credentials:
 │   │   │   ├── _components/         # Public Page Layout Components (Navbar, Footer, Hero)
 │   │   │   └── page.tsx             # Root Home / Landing Page
 │   │   │
-│   │   ├── api/                     # Route Handlers / Proxies (if applicable)
+│   │   ├
 │   │   ├── layout.tsx               # Root Application Layout & Providers
 │   │   └── globals.css              # Global Tailwind Styles
 │   │
@@ -73,6 +74,6 @@ Test the administrative features using the pre-configured credentials:
 │   │   ├── ui/                      # Primary shadcn/ui primitives (Button, Dialog, Table, Input)
 │   │   └── shared/                  # Reusable Global Components (DeleteButton, LoadingSpinner, DataTables)
 │   │
-│   ├── lib/                         # Axios/Fetch Instances, API Wrappers, and Utilities (`utils.ts`)
+│   ├── lib/                         # Fetch Instances, API Wrappers, and Utilities (`utils.ts`)
 │   ├── types/                       # TypeScript Interfaces matching Backend Models & Action Results
 │   └── proxy.ts                # Route Guarding & JWT Authentication Verification
