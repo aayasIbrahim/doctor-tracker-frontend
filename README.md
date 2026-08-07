@@ -50,7 +50,7 @@ Test the administrative features using the pre-configured credentials:
 ```text
 ├── src/
 │   ├── app/
-│   │   ├── (authGroup)/                  # Authentication Routes (Login, Register, etc.)
+│   │   ├── (authGroup)/                  # Authentication Routes (Login, Register, etc.)   │
 │   │   │   └── login/
 │   │   │   └── register/
 │   │   │
@@ -63,7 +63,7 @@ Test the administrative features using the pre-configured credentials:
 │   │   │   └── layout.tsx           # Dashboard Layout with Sidebar & Header Navigation
 │   │   │
 │   │   ├── (publicGroup)/                # Publicly Accessible Pages (Landing Page)
-│   │   │   ├── _components/         # Public Page Layout Components (Navbar, Footer, Hero)       └── layout.tsx
+│   │   │   ├── _components/         # Public Page Layout Components (Navbar, Footer, Hero)   │   ├── layout.tsx
 │   │   │   └── page.tsx             # Root Home / Landing Page
 │   │   │
 │   │   ├
