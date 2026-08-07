@@ -12,6 +12,15 @@ export const patientFilters: FilterConfig[] = [
     ],
   },
   {
+    key: "Condition",
+    placeholder: "condititon",
+    options: [
+      { label: "Today", value: "today" },
+      { label: "Last 7 Days", value: "last_7_days" },
+      { label: "Last 30 Days", value: "last_30_days" },
+    ],
+  },
+  {
     key: "gender",
     placeholder: "Gender",
     options: [
@@ -20,15 +29,7 @@ export const patientFilters: FilterConfig[] = [
       { label: "Other", value: "Other" },
     ],
   },
-  {
-    key: "status",
-    placeholder: "Status",
-    options: [
-      { label: "Active", value: "active" },
-      { label: "Admitted", value: "admitted" },
-      { label: "Discharged", value: "discharged" },
-    ],
-  },
+ 
 ];
 export const doctorFilters: FilterConfig[] = [
   {

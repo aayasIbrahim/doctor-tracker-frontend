@@ -53,6 +53,8 @@ export const PatientColumns: Column<IPatient>[] = [
       </div>
     ),
   },
+ 
+
   {
     header: "Joined Date",
     cell: (patient: IPatient) => (

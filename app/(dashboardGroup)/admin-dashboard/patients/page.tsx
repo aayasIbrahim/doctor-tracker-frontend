@@ -11,7 +11,6 @@ export default function Patientspage({
 }) {
   return (
     <div className="p-6 space-y-4">
-      {/* 1. Header Section */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b pb-6">
         <div className="space-y-1">
           <h1 className="text-3xl font-bold tracking-tight">
@@ -22,14 +21,12 @@ export default function Patientspage({
             allocations.
           </p>
         </div>
-
-        {/* Modal Trigger */}
       </div>
       <SearchAndFilter
         searchPlaceholder="Search doctors by name or hospital..."
         filters={patientFilters}
       />
-      {/* 2. Main Content Section (Data Table / List) */}
+
       <main className="w-full">
         <Suspense fallback={<DoctorSkeleton />}>
           <PatientsList searchParams={searchParams} />

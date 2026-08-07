@@ -29,7 +29,7 @@ A modern, responsive, and type-safe Administrative Dashboard built with **Next.j
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS, Lucide React Icons
 - **UI Components:** shadcn/ui (Radix UI primitives)
-- **State & Data Fetching:** React Hook Form, Zod Validation, Axios / Native Fetch
+- **State & Data Fetching:** React Hook Form, Native Fetch
 - **Data Visualization:** Recharts
 - **Notifications:** Sonner
 
