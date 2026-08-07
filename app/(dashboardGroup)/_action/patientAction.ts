@@ -52,8 +52,9 @@ export const updatePatient = async (
   }
   const payload = {
     name: formData.get("name") ?? "",
+    age: formData.get("age") ?? "",
     specialization: formData.get("specialization") ?? "",
-    hospital: formData.get("hospital") ?? "",
+    gender: formData.get("gender") ?? "",
     phone: formData.get("phone") ?? "",
     email: formData.get("email") ?? "",
   };
