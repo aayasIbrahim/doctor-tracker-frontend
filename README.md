@@ -49,11 +49,30 @@ Test the administrative features using the pre-configured credentials:
 
 ```text
 ├── src/
-│   ├── app/                  # Next.js App Router (Dashboard, Doctors, Patients, Stats)
+│   ├── app/
+│   │   ├── (authGroup)/                  # Authentication Routes (Login, Register, etc.)
+│   │   │   └── login/
+│   │   │
+│   │   ├── (dashboardGroup)/             # Protected Administrative Dashboard Routes
+│   │   │   ├── _actions/            # Server Actions specific to Dashboard (Doctors, Patients, Stats)
+│   │   │   ├── _components/         # Dashboard-specific UI (Charts, Modals, Forms)
+│   │   │   ├── doctors/             # Doctor Management Pages & Nested Patient List
+│   │   │   ├── patients/            # Patient Management Pages
+│   │   │   ├── stats/               # Analytics & Report Pages
+│   │   │   └── layout.tsx           # Dashboard Layout with Sidebar & Header Navigation
+│   │   │
+│   │   ├── (publicGroup)/                # Publicly Accessible Pages (Landing Page, About, Contact)
+│   │   │   ├── _components/         # Public Page Layout Components (Navbar, Footer, Hero)
+│   │   │   └── page.tsx             # Root Home / Landing Page
+│   │   │
+│   │   ├── api/                     # Route Handlers / Proxies (if applicable)
+│   │   ├── layout.tsx               # Root Application Layout & Providers
+│   │   └── globals.css              # Global Tailwind Styles
+│   │
 │   ├── components/
-│   │   ├── ui/               # Primary shadcn/ui components (Button, Dialog, Table, etc.)
-│   │   ├── shared/           # Reusable UI (Sidebar, Header, DeleteButton, DataTable)
-│   │   └── dashboard/        # Analytics & Chart components
-│   ├── lib/                  # Axios instance, API helpers, utility functions
-│   ├── types/                # TypeScript interfaces matching backend models
-│   └── middleware.ts         # Authentication & Route Protection
+│   │   ├── ui/                      # Primary shadcn/ui primitives (Button, Dialog, Table, Input)
+│   │   └── shared/                  # Reusable Global Components (DeleteButton, LoadingSpinner, DataTables)
+│   │
+│   ├── lib/                         # Axios/Fetch Instances, API Wrappers, and Utilities (`utils.ts`)
+│   ├── types/                       # TypeScript Interfaces matching Backend Models & Action Results
+│   └── proxy.ts                # Route Guarding & JWT Authentication Verification
