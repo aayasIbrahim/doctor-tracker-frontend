@@ -62,8 +62,8 @@ Test the administrative features using the pre-configured credentials:
 │   │   │   ├── stats/               # Analytics & Report Pages
 │   │   │   └── layout.tsx           # Dashboard Layout with Sidebar & Header Navigation
 │   │   │
-│   │   ├── (publicGroup)/                # Publicly Accessible Pages (Landing Page, About, Contact)
-│   │   │   ├── _components/         # Public Page Layout Components (Navbar, Footer, Hero)
+│   │   ├── (publicGroup)/                # Publicly Accessible Pages (Landing Page)
+│   │   │   ├── _components/         # Public Page Layout Components (Navbar, Footer, Hero)       └── layout.tsx
 │   │   │   └── page.tsx             # Root Home / Landing Page
 │   │   │
 │   │   ├
