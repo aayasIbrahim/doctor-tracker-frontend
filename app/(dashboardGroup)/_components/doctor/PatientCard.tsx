@@ -4,16 +4,15 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Phone, Activity, Calendar, UserX } from "lucide-react";
 import { IPatient } from "@/lib/types";
-import { DeleteButton } from "../DeleteButton";
+import { DeleteButton } from "../../../../components/shared/DeleteButton";
 import { removePatientFromDoctor } from "../../_action/doctorActions";
 
-
-interface PatientGridListProps {
+interface PatientCard {
   patients: IPatient[];
-  doctorId?: string; 
+  doctorId?: string;
 }
 
-export function PatientCardList({ patients }: PatientGridListProps) {
+export function PatientCard({ patients }: PatientCard) {
   if (!patients || patients.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/80 bg-muted/20 p-10 text-center animate-in fade-in-50">
@@ -71,7 +70,11 @@ export function PatientCardList({ patients }: PatientGridListProps) {
                 {/* Top Right Action */}
                 <div className="opacity-80 group-hover:opacity-100 transition-opacity">
                   <DeleteButton
-                    deleteAction={removePatientFromDoctor.bind(null,patient.doctorId,patient._id)}
+                    deleteAction={removePatientFromDoctor.bind(
+                      null,
+                      patient.doctorId,
+                      patient._id,
+                    )}
                     title="Remove Patient?"
                     description={`Are you sure you want to remove ${patient.name} from this doctor's list?`}
                   />
@@ -120,4 +123,4 @@ export function PatientCardList({ patients }: PatientGridListProps) {
   );
 }
 
-export default PatientCardList;
+export default PatientCard;

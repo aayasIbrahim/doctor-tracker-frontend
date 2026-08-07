@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
-import { DoctorSkeleton } from "../../_components/doctor/DoctorSkeleton";
+import { TableSkeleton } from "../../../../components/shared/TableSkeleton";
 import { PatientsList } from "../../_components/patient/PatientsList";
-import { SearchAndFilter } from "../../_components/SearchAndFilter";
+import { SearchAndFilter } from "../../../../components/shared/SearchAndFilter";
 import { patientFilters } from "../../_config/filter";
 
 export default function Patientspage({
@@ -28,7 +28,7 @@ export default function Patientspage({
       />
 
       <main className="w-full">
-        <Suspense fallback={<DoctorSkeleton />}>
+        <Suspense fallback={<TableSkeleton />}>
           <PatientsList searchParams={searchParams} />
         </Suspense>
       </main>

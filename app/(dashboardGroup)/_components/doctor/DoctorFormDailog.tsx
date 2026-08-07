@@ -98,7 +98,11 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <form  key={mode === "edit" ? doctor?._id : "create-doctor-form"} action={formAction} className="space-y-4 py-2">
+        <form
+          key={mode === "edit" ? doctor?._id : "create-doctor-form"}
+          action={formAction}
+          className="space-y-4 py-2"
+        >
           {/* Doctor Name */}
           <div className="space-y-1.5">
             <Label htmlFor="name" className="text-xs font-semibold">
@@ -124,15 +128,23 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                 Specialization <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
-                <Stethoscope className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
+                <Stethoscope className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                <select
                   id="specialization"
                   name="specialization"
-                  placeholder="Cardiology"
-                  defaultValue={doctor?.specialization|| ""}
+                  defaultValue={doctor?.specialization || ""}
                   required
-                  className="pl-9 h-9 text-xs"
-                />
+                  className="w-full h-9 pl-9 pr-3 rounded-md border border-input bg-background text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <option value="" disabled>
+                    Select Specialization
+                  </option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Gynecology">Gynecology</option>
+                  <option value="Gastroenterology">Gastroenterology</option>
+                  <option value="Orthopedics">Orthopedics</option>
+                  <option value="Pediatrics">Pediatrics</option>
+                </select>
               </div>
             </div>
 
@@ -146,7 +158,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   id="hospital"
                   name="hospital"
                   placeholder="Central Hospital"
-                  defaultValue={doctor?.hospital|| ""}
+                  defaultValue={doctor?.hospital || ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />
@@ -166,7 +178,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   id="phone"
                   name="phone"
                   placeholder="+1-555-015-1122"
-                  defaultValue={doctor?.phone|| ""}
+                  defaultValue={doctor?.phone || ""}
                   className="pl-9 h-9 text-xs"
                 />
               </div>
@@ -183,7 +195,7 @@ export function DoctorFormDialog({ mode, doctor }: DoctorFormDialogProps) {
                   type="email"
                   name="email"
                   placeholder="doctor@hospital.org"
-                  defaultValue={doctor?.email|| ""}
+                  defaultValue={doctor?.email || ""}
                   required
                   className="pl-9 h-9 text-xs"
                 />

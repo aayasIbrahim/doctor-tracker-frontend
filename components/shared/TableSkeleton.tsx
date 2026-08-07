@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function DoctorSkeleton() {
+export function TableSkeleton() {
   return (
     <div className="space-y-4">
       <div className="border rounded-xl p-4 space-y-3">

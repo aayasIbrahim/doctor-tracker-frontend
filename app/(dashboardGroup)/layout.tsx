@@ -1,7 +1,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import DashboardSidebar from "./_components/DashboardSidebar";
 import { Navbar } from "@/components/shared/navber";
 import { getMe } from "@/services/getMe";
+import DashboardSidebar from "@/components/shared/DashboardSidebar";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getMe();

@@ -12,24 +12,26 @@ export const patientFilters: FilterConfig[] = [
     ],
   },
   {
-    key: "Condition",
-    placeholder: "condititon",
+    key: "condition",
+    placeholder: "Filter by Condition",
     options: [
-      { label: "Today", value: "today" },
-      { label: "Last 7 Days", value: "last_7_days" },
-      { label: "Last 30 Days", value: "last_30_days" },
+      { label: "Fever & Cold", value: "Fever & Cold" },
+      { label: "Chest Pain", value: "Chest Pain" },
+      { label: "High Blood Pressure", value: "High Blood Pressure" },
+      { label: "Diabetes Control", value: "Diabetes Control" },
+      { label: "Gastric Ulcer", value: "Gastric Ulcer" },
+      { label: "General Checkup", value: "General Checkup" },
     ],
   },
   {
     key: "gender",
-    placeholder: "Gender",
+    placeholder: "Filter by Gender",
     options: [
       { label: "Male", value: "Male" },
       { label: "Female", value: "Female" },
       { label: "Other", value: "Other" },
     ],
   },
- 
 ];
 export const doctorFilters: FilterConfig[] = [
   {

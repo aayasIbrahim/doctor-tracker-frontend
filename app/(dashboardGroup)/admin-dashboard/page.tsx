@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import { DashboardSkeleton } from "../_components/DashboardSkeleton";
-import { DashboardDataContent } from "../_components/dashboardStats/DashboardDataContent";
+import { DashboardSkeleton } from "../../../components/shared/DashboardSkeleton";
+import { DashboardDataContent } from "../_components/stats/DashboardDataContent";
 
 export default function AdminDashboardPage() {
   return (
@@ -9,7 +9,6 @@ export default function AdminDashboardPage() {
       <p className="text-muted-foreground">
         Welcome to the MediPulse Admin Management System.
       </p>
-      
 
       <Suspense fallback={<DashboardSkeleton />}>
         <DashboardDataContent />

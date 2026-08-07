@@ -1,9 +1,9 @@
 import React, { Suspense } from "react";
 import { DoctorFormDialog } from "../../_components/doctor/DoctorFormDailog";
 import { DoctorList } from "../../_components/doctor/DoctorList";
-import { DoctorSkeleton } from "../../_components/doctor/DoctorSkeleton";
-import { SearchAndFilter } from "../../_components/SearchAndFilter";
+import { SearchAndFilter } from "../../../../components/shared/SearchAndFilter";
 import { doctorFilters } from "../../_config/filter";
+import { TableSkeleton } from "@/components/shared/TableSkeleton";
 
 export default async function DoctorsPage({
   searchParams,
@@ -40,7 +40,7 @@ export default async function DoctorsPage({
 
       {/* 2. Main Content Section (Data Table / List) */}
       <main className="w-full">
-        <Suspense fallback={<DoctorSkeleton />}>
+        <Suspense fallback={<TableSkeleton />}>
           <DoctorList searchParams={searchParams} />
         </Suspense>
       </main>

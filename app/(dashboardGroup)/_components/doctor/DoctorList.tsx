@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { deleteDoctor, getAllDoctors } from "../../_action/doctorActions";
 
 import { DoctorFormDialog } from "./DoctorFormDailog";
-import { DeleteButton } from "../DeleteButton";
-import { DataTable } from "../DataTable";
-import { Paginations } from "../Paginations";
+import { DeleteButton } from "../../../../components/shared/DeleteButton";
+import { DataTable } from "../../../../components/shared/DataTable";
+import { Paginations } from "../../../../components/shared/Paginations";
 import { Eye } from "lucide-react";
 import { IDoctor } from "@/lib/types";
 import { DoctorColumns } from "./DoctorTableColums";
@@ -34,11 +34,11 @@ export async function DoctorList({
       <DataTable
         data={result?.data || []}
         columns={DoctorColumns}
-        keyExtractor={(doctor:IDoctor) => doctor._id}
+        keyExtractor={(doctor: IDoctor) => doctor._id}
         emptyMessage="No doctors found matching the query criteria."
         actions={(doctor) => (
           <>
-            {/* View Details */}
+          
             <Link href={`/admin-dashboard/doctors/${doctor._id}`}>
               <Button
                 variant="ghost"
@@ -49,11 +49,10 @@ export async function DoctorList({
               </Button>
             </Link>
 
-            {/* Edit Dialog */}
+           
             <DoctorFormDialog mode="edit" doctor={doctor} />
 
             <DeleteButton
-        
               deleteAction={deleteDoctor.bind(null, doctor._id)}
               title="Remove Doctor?"
               description={`Are you sure you want to remove ${doctor.name} from this doctor's list?`}

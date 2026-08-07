@@ -11,6 +11,7 @@ import {
   Stethoscope,
   Users,
   LogOutIcon,
+  Home,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -32,6 +33,7 @@ import { toast } from "sonner";
 
 // Healthcare specific navigation links
 const navLinks = [
+  { label: "Home", href: "/", icon: Home },
   { label: "Dashboard", href: "/admin-dashboard", icon: LayoutDashboard },
   { label: "Doctors", href: "/admin-dashboard/doctors", icon: Stethoscope },
   { label: "Patients", href: "/admin-dashboard/patients", icon: Users },

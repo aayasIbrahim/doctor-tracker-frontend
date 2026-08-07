@@ -5,9 +5,9 @@ import {
   getDoctorPatients,
 } from "@/app/(dashboardGroup)/_action/doctorActions";
 import DoctorHeading from "@/app/(dashboardGroup)/_components/patient/DoctorHeading";
-import PatientCardList from "@/app/(dashboardGroup)/_components/patient/patientsListCard";
+import PatientCardList from "@/app/(dashboardGroup)/_components/doctor/PatientCard";
 import { PatientFormDialog } from "@/app/(dashboardGroup)/_components/patient/PatientFormDailog";
-import { DashboardSkeleton } from "@/app/(dashboardGroup)/_components/DashboardSkeleton";
+import { DashboardSkeleton } from "@/components/shared/DashboardSkeleton";
 
 export default async function DoctorSinglePage({
   params,

@@ -16,7 +16,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { User as UserIcon } from "lucide-react";
 import { ISidebarItem, NavbarProps } from "@/lib/types";
-import { sidebarMenuItems } from "../_config/adminSidebarItems";
+import { sidebarMenuItems } from "@/app/(dashboardGroup)/_config/adminSidebarItems";
+// import { sidebarMenuItems } from "";,
 
 export default function DashboardSidebar({ user }: NavbarProps) {
   const pathname = usePathname();

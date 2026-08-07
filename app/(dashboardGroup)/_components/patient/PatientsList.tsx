@@ -1,6 +1,6 @@
-import { DeleteButton } from "../DeleteButton";
-import { DataTable } from "../DataTable";
-import { Paginations } from "../Paginations";
+import { DeleteButton } from "../../../../components/shared/DeleteButton";
+import { DataTable } from "../../../../components/shared/DataTable";
+import { Paginations } from "../../../../components/shared/Paginations";
 import { IPatient } from "@/lib/types";
 import { PatientFormDialog } from "./PatientFormDailog";
 import { deletePaitent, getAllPatients } from "../../_action/patientAction";

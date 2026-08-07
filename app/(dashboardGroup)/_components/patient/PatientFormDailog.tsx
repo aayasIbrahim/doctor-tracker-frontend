@@ -24,9 +24,7 @@ import {
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { IPatient } from "@/lib/types";
-import {
-  updatePatient,
-} from "../../_action/patientAction";
+import { updatePatient } from "../../_action/patientAction";
 import { addPatientUnderDoctor } from "../../_action/doctorActions";
 
 type PatientFormDialogProps = {
@@ -187,15 +185,26 @@ export function PatientFormDialog({
                 <span className="text-destructive">*</span>
               </Label>
               <div className="relative">
-                <Activity className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
+                <Activity className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                <select
                   id="condition"
                   name="condition"
-                  placeholder="e.g. Fever, Hypertension"
                   defaultValue={patient?.condition || ""}
                   required
-                  className="pl-9 h-9 text-xs"
-                />
+                  className="w-full h-9 pl-9 pr-3 rounded-md border border-input bg-background text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <option value="" disabled>
+                    Select Condition
+                  </option>
+                  <option value="Fever & Cold">Fever & Cold</option>
+                  <option value="Chest Pain">Chest Pain</option>
+                  <option value="High Blood Pressure">
+                    High Blood Pressure
+                  </option>
+                  <option value="Diabetes Control">Diabetes Control</option>
+                  <option value="Gastric Ulcer">Gastric Ulcer</option>
+                  <option value="General Checkup">General Checkup</option>
+                </select>
               </div>
             </div>
           </div>
